@@ -10,6 +10,7 @@ import { Places } from '#lib/Places'
 import LeafleftMapContextProvider from './LeafletMapContextProvider'
 import useMapContext from './useMapContext'
 import useMarkerData from './useMarkerData'
+import useCustomCrs from './useCustomCrs'
 
 const LeafletCluster = dynamic(async () => (await import('./LeafletCluster')).LeafletCluster(), {
   ssr: false,
@@ -18,9 +19,6 @@ const CenterToMarkerButton = dynamic(async () => (await import('./ui/CenterButto
   ssr: false,
 })
 const CustomMarker = dynamic(async () => (await import('./LeafletMarker')).CustomMarker, {
-  ssr: false,
-})
-const LocateButton = dynamic(async () => (await import('./ui/LocateButton')).LocateButton, {
   ssr: false,
 })
 const LeafletMapContainer = dynamic(async () => (await import('./LeafletMapContainer')).LeafletMapContainer, {
@@ -44,6 +42,8 @@ const LeafletMapInner = () => {
     viewportWidth,
     viewportHeight,
   })
+
+  useCustomCrs();
 
   const isLoading = !map || !viewportWidth || !viewportHeight
 
@@ -83,8 +83,7 @@ const LeafletMapInner = () => {
                   center={allMarkersBoundCenter.centerPos}
                   zoom={allMarkersBoundCenter.minZoom}
                 />
-                <LocateButton />
-                {Object.values(clustersByCategory).map(item => (
+                {/* {Object.values(clustersByCategory).map(item => (
                   <LeafletCluster
                     key={item.category}
                     icon={MarkerCategories[item.category as Category].icon}
@@ -95,7 +94,7 @@ const LeafletMapInner = () => {
                       <CustomMarker place={marker} key={marker.id} />
                     ))}
                   </LeafletCluster>
-                ))}
+                ))} */}
               </>
             ) : (
               // we have to spawn at least one element to keep it happy
